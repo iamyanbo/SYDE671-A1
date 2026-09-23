@@ -48,7 +48,7 @@ img{display:block;width:100%;height:auto;border:1px solid var(--line);border-rad
 <strong>NCC</strong> G, R: (1, 6), (1, 10)</p></article></div>
 
 <h3>2.2 · Image pyramid</h3>
-<p>All 18 assignment images use the same pyramid search. First images are convoluted with a Laplacian filter to emphasize edges (Bells and Whistles). Then the pyramid is built by downsampling by a factor of 2 until the smallest sample is around 100 pixels. The pyramid search starts at the smallest level, and the best offset is propagated to the next level up. At each level, a search window of 15 pixels is used to determine best alignment.</p>
+<p>For each pair of channels, (B, G) and (B, R), we perform the following: the pyramid halves each image until its shortest side is about 100 px, then performs an alignment search over shifts within &plusmn;15 px. The best alignment is propagated up the pyramid. At each higher level, the offset is doubled to account for the downsampling, then refined by checking a &plusmn;2 px neighborhood. At each level, the images are convolved with a Laplacian kernel to emphasize edges before candidate shifts are scored (see Bells and Whistles). Finally, the shifted channels are combined, and borders are cropped.</p>
 <div class="gallery"><figure><img src="./media/00163v_ncc_edge.jpg" alt="Aligned image 00163v"><figcaption>00163v</figcaption></figure>
 <figure><img src="./media/00458u_ncc_edge.jpg" alt="Aligned image 00458u"><figcaption>00458u</figcaption></figure>
 <figure><img src="./media/00804v_ncc_edge.jpg" alt="Aligned image 00804v"><figcaption>00804v</figcaption></figure>
