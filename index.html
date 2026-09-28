@@ -30,7 +30,7 @@ img{display:block;width:100%;height:auto;border:1px solid var(--line);border-rad
 
 <h2>PART TWO: Images	of	the	Russian	Empire</h2>
 <h3>2.1 · Single-scale alignment: three low-resolution images</h3>
-<p>L2 and NCC result of simple images. Offsets are (x, y), listed for green and then red.</p>
+<p>For each low-resolution image, we split the stacked scan into B, G and R channels. Keeping B fixed, we search shifts up to &plusmn;15 pixels for G and R at the original resolution. L2 picks the smallest squared pixel error; NCC picks the highest normalized correlation. Offsets are (x, y), listed for green and then red.</p>
 <div class="lowres-grid"><article class="lowres-card"><h4>cathedral</h4><div class="metric-pair">
 <figure><img src="./media/cathedral_singlescale_l2.jpg" alt="cathedral aligned with single-scale L2"><figcaption>L2</figcaption></figure>
 <figure><img src="./media/cathedral_singlescale_ncc.jpg" alt="cathedral aligned with single-scale NCC"><figcaption>NCC</figcaption></figure>
@@ -49,6 +49,7 @@ img{display:block;width:100%;height:auto;border:1px solid var(--line);border-rad
 
 <h3>2.2 · Image pyramid</h3>
 <p>For each pair of channels, (B, G) and (B, R), we perform the following: downsample the image until its shortest side is less than 100 pixels, then perform normal L2/NCC alignment on this smaller image. The best alignment of the smaller image is propagated up the pyramid. At each higher level, the offset is doubled to account for downsampling, then refined within a &plusmn;2 pixel neighborhood.</p>
+<p>Downsampling reduces large shifts to a range that can be searched efficiently. At the smallest level, shifts within &plusmn;15 pixels in x and y are tested. The scores use only overlapping interior pixels: L2 minimizes squared differences, while NCC maximizes normalized correlation.</p>
 <p>Offsets are listed as (x, y) for G and R relative to B. Each pair shows L2 on the left and NCC on the right; click a thumbnail to view it full size.</p>
 <div class="gallery">
 <figure><figcaption>00163v</figcaption><div style="display:grid;grid-template-columns:1fr 1fr;gap:5px"><a href="./media/00163v_L2_part_2.jpg"><img src="./media/00163v_L2_part_2.jpg" alt="00163v L2" style="height:72px;aspect-ratio:auto;object-fit:contain"></a><a href="./media/00163v_NCC_part_2.jpg"><img src="./media/00163v_NCC_part_2.jpg" alt="00163v NCC" style="height:72px;aspect-ratio:auto;object-fit:contain"></a></div></figure>
@@ -154,8 +155,9 @@ img{display:block;width:100%;height:auto;border:1px solid var(--line);border-rad
 <figcaption>01725u · raw-pixel L2 / NCC</figcaption></figure></div>
 
 <h3>2.3 · Bells and whistles</h3>
-<p>A Laplacian filter is convolved with the image to sharpen edges and better align the image channels. After pyramid alignment, low intensity borders are cropped using a grayscale threshold. Automatic contrast is lastly applied to stretch the image intensities across the whole range in an attempt to improve perceived image quality.</p>
+<p>A Laplacian filter is convolved with the image to sharpen edges and better align the image channels. After pyramid alignment, low intensity borders are cropped using a grayscale threshold. Automatic contrast stretches the cropped image's intensities from the 1st to the 99th percentile across all RGB channels.</p>
 <figure style="max-width:900px"><img src="./media/01725u_before_after.jpg" alt="01725u before and after border cropping"><figcaption>01725u · aligned before cropping (left) and after cropping (right).</figcaption></figure>
+<div class="twocol"><figure><img src="./media/01725u_contrast_before.jpg" alt="01725u before automatic contrast"><figcaption>01725u · before automatic contrast</figcaption></figure><figure><img src="./media/01725u_contrast_after.jpg" alt="01725u after automatic contrast"><figcaption>01725u · after automatic contrast</figcaption></figure></div>
 <div class="gallery"><figure><img src="./media/01269v_ncc_edge.jpg" alt="01269v aligned using NCC on Laplacian edge maps"><figcaption>01269v edge-NCC</figcaption></figure>
 <figure><img src="./media/01522v_ncc_edge.jpg" alt="01522v aligned using NCC on Laplacian edge maps"><figcaption>01522v edge-NCC</figcaption></figure>
 <figure><img src="./media/cathedral_ncc_edge.jpg" alt="Cathedral aligned using NCC on Laplacian edge maps"><figcaption>cathedral edge-NCC</figcaption></figure></div>
