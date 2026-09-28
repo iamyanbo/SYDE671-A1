@@ -49,7 +49,7 @@ img{display:block;width:100%;height:auto;border:1px solid var(--line);border-rad
 
 <h3>2.2 · Image pyramid</h3>
 <p>For each pair of channels, (B, G) and (B, R), we perform the following: downsample the image until its shortest side is less than 100 pixels, then perform normal L2/NCC alignment on this smaller image. The best alignment of the smaller image is propagated up the pyramid. At each higher level, the offset is doubled to account for downsampling, then refined within a &plusmn;2 pixel neighborhood.</p>
-<p>Downsampling reduces large shifts to a range that can be searched efficiently. At the smallest level, shifts within &plusmn;15 pixels in x and y are tested. The scores use only overlapping interior pixels: L2 minimizes squared differences, while NCC maximizes normalized correlation.</p>
+<p>At the smallest pyramid level, we test shifts within &plusmn;15 pixels in each direction. Using the overlapping interior pixels, L2 selects the shift with the smallest squared error, while NCC selects the highest normalized correlation.</p>
 <p>Offsets are listed as (x, y) for G and R relative to B. Each pair shows L2 on the left and NCC on the right; click a thumbnail to view it full size.</p>
 <div class="gallery">
 <figure><figcaption>00163v</figcaption><div style="display:grid;grid-template-columns:1fr 1fr;gap:5px"><a href="./media/00163v_L2_part_2.jpg"><img src="./media/00163v_L2_part_2.jpg" alt="00163v L2" style="height:72px;aspect-ratio:auto;object-fit:contain"></a><a href="./media/00163v_NCC_part_2.jpg"><img src="./media/00163v_NCC_part_2.jpg" alt="00163v NCC" style="height:72px;aspect-ratio:auto;object-fit:contain"></a></div></figure>
