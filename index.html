@@ -48,7 +48,7 @@ img{display:block;width:100%;height:auto;border:1px solid var(--line);border-rad
 <strong>NCC</strong> G, R: (1, 6), (1, 10)</p></article></div>
 
 <h3>2.2 · Image pyramid</h3>
-<p>For each pair of channels, (B, G) and (B, R), we perform the following: downsample the image until its shortest side is less than 100 pixels, then perform normal L2/NCC alignment on this smaller image. The best alignment of the smaller image is propagated up the pyramid. At each higher level, the offset is doubled to account for downsampling, then refined within a &plusmn;2 pixel neighborhood.</p>
+<p>For each pair of channels, (B, G) and (B, R), we perform the following: downsample the image until its shortest side is less than 100 pixels, then perform normal L2/NCC alignment on this smaller image. The best alignment of the smaller image is propagated up the pyramid. At each higher level, the offset is doubled to account for downsampling, then refined within a &plusmn;2 pixel neighborhood using the same L2 or NCC metric.</p>
 <p>At the smallest pyramid level, we test shifts within &plusmn;15 pixels in each direction. Using the overlapping interior pixels, L2 selects the shift with the smallest squared error, while NCC selects the highest normalized correlation.</p>
 <p>Offsets are listed as (x, y) for G and R relative to B. Each pair shows L2 on the left and NCC on the right; click a thumbnail to view it full size.</p>
 <div class="gallery">
